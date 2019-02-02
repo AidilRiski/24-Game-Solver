@@ -1,20 +1,17 @@
 def main():
+    print("Selamat datang di program Tubes Stima")
     user_input = input()
-
     nums = user_input.split()
     for (i, num) in enumerate(nums):
         nums[i] = int(num)
-
     nums.sort()
-
     expression = ''
 
     scores = [0, 0, 0, 0]
     currentScore = 0
-    print(''.join(['Score', str(currentScore)]))
+    print(''.join(['Score ', str(currentScore)]))
     currentNumber = nums[0]
     expressionNums = []
-
     expressionNums.append(nums[0])
     nums.remove(nums[0])
     print(nums)
@@ -44,7 +41,7 @@ def main():
             max = scores[id]
 
     currentScore = scores[id]
-    print(''.join(['Score', str(currentScore)]))
+    print(''.join(['Score ', str(currentScore)]))
 
     chosen = 0
 
@@ -52,7 +49,7 @@ def main():
         chosen = nums[2]
     else:
         chosen = nums[0]
-    
+
     nums.remove(chosen)
     print(nums)
     expressionNums.append(chosen)
@@ -85,7 +82,7 @@ def main():
             max = scores[id]
 
     currentScore = scores[id]
-    print(''.join(['Score', str(currentScore)]))
+    print(''.join(['Score ', str(currentScore)]))
 
     chosen = 0
 
@@ -93,7 +90,7 @@ def main():
         chosen = nums[1]
     else:
         chosen = nums[0]
-    
+
     nums.remove(chosen)
     print(nums)
     expressionNums.append(chosen)
@@ -125,10 +122,10 @@ def main():
             max = scores[id]
 
     currentScore = scores[id]
-    print(''.join(['Score', str(currentScore)]))
+    print(''.join(['Score ', str(currentScore)]))
 
     chosen = nums[0]
-    
+
     nums.remove(chosen)
     print(nums)
     expressionNums.append(chosen)
@@ -138,7 +135,7 @@ def main():
 
     print(expression)
     print(currentNumber)
-    
+
     s = 0
 
     for c in expression:
@@ -151,11 +148,10 @@ def main():
         elif (c == '*'):
             s += 3
         elif (c == '/'):
-            s += 2 
+            s += 2
 
     s -= abs(currentNumber - 24)
 
-    print(''.join(['Final', str(s)]))
-
+    print(''.join(['Final: ', str(s)]))
 
 main()
