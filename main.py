@@ -1,7 +1,5 @@
 import random
-
 import tkinter
-
 import solver
 
 class MainApplication(tkinter.Frame):
@@ -37,16 +35,16 @@ class MainApplication(tkinter.Frame):
 
     def randomNumberAction(self):
         self.inputNum1.delete(0, tkinter.END)
-        self.inputNum1.insert(0, str(random.randint(0, 13)))
+        self.inputNum1.insert(0, str(random.randint(1, 13)))
 
         self.inputNum2.delete(0, tkinter.END)
-        self.inputNum2.insert(0, str(random.randint(0, 13)))
+        self.inputNum2.insert(0, str(random.randint(1, 13)))
 
         self.inputNum3.delete(0, tkinter.END)
-        self.inputNum3.insert(0, str(random.randint(0, 13)))
+        self.inputNum3.insert(0, str(random.randint(1, 13)))
 
         self.inputNum4.delete(0, tkinter.END)
-        self.inputNum4.insert(0, str(random.randint(0, 13)))
+        self.inputNum4.insert(0, str(random.randint(1, 13)))
 
 mainApp = MainApplication()
 mainApp.master.title('24 Game Solver')

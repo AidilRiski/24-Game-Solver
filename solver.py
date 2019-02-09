@@ -1,4 +1,5 @@
-def Solve(nums):
+#def Solve(nums):
+def main():
     #CARA PAKAI
     #Parameter nums berisi empat buah angka.
     #Tinggal panggil.
@@ -6,13 +7,13 @@ def Solve(nums):
 
     #Greedy Strategy 1:
     #https://stackoverflow.com/questions/4663306/get-a-list-of-numbers-as-input-from-the-user
-
+    nums = [int(i) for i in input().split()]
     expressionNums = []
     nums.sort(reverse = True)
     expression = ''
     operatorList = ['+', '-', '*', '/']
     #Cari dua angka dari HIMPUNAN KANDIDAT yang jika dioperasikan dengan operatorList mendekati 24
-    nextTempStep1 = eval(''.join([str(nums[0]),operatorList[0],str(nums[1])]))
+    nextTempStep1 = 0 #eval(''.join([str(nums[0]),operatorList[0],str(nums[1])]))
     itemp1 = 0; jtemp1 = 1; ktemp1 = 0
     for i in range (0,4):
         for j in range (0,4) :
@@ -27,19 +28,20 @@ def Solve(nums):
                         else:
                             del indexestemp[i]; del indexestemp[j]
                         #Fungsi Seleksi, yaitu yang paling dekat dengan 24
-
-                        if (temp1 == 24 and nums[indexestemp[0]] == nums[indexestemp[1]] or (abs(nums[indexestemp[0]]-nums[indexestemp[1]]) == 1)):
+                        print(nums[indexestemp[0]]); print(nums[indexestemp[1]]);
+                        if (temp1 == 24 and (abs(nums[indexestemp[0]]-nums[indexestemp[1]]) <= 1)):
                             nextTempStep1 = temp1; itemp1 = i; jtemp1 = j; ktemp1 = k
-                        elif ((operatorList[k] == '+' or operatorList[k] == '-') and abs (temp1-24) <6 and temp1 != 24):
+                        elif ((operatorList[k] == '+' or operatorList[k] == '-') and abs (temp1-24) <8 and temp1 != 24):
                             nextTempStep1 = temp1; itemp1 = i ; jtemp1 = j; ktemp1 = k
-                        elif (operatorList[k] == '*' or operatorList[k] == '/' and temp1 != 24):
+                        elif ((operatorList[k] == '*' or operatorList[k] == '/') and temp1 != 24):
+                            print(temp1)
                             nextTempStep1 = temp1; itemp1 = i ; jtemp1 = j; ktemp1 = k
 
     #Masukkan dua angka tersebut dalam himpunan solusi
     expressionNums.append(nums[itemp1]); expressionNums.append(nums[jtemp1])
     expression = ''.join([str(expressionNums[0]),operatorList[ktemp1],str(expressionNums[1])])
-    print(expression)
-
+    #print(expression)
+    expressionv2 = expression #SIMPAN untuk STRATEGI GREEDY 2
     #Buang dua angka tersebut dari himpunan kandidat
     indexes = [itemp1, jtemp1]
     for i in sorted (indexes, reverse = True):
@@ -71,7 +73,7 @@ def Solve(nums):
     nums.remove(nums[itemp2])
     #Cari angka berikutnya (terakhir) yang jika dioperasikan dengan operator dalam operatorList tetap mendekati 24
     nextTempStep3 = eval(''.join([str(nextTempStep2),'+',str(nums[0])])); ktemp3 = 0 #Awal
-    for k in range (0,4):
+    for k in range (0 ,4):
         temp3 = eval(''.join([str(nextTempStep2),operatorList[k],str(nums[0])]))
         if (abs(24 - temp3)  < abs (24 - nextTempStep3)):
             nextTempStep3 = temp3;  ktemp3 = k
@@ -81,155 +83,44 @@ def Solve(nums):
     expression = expression + operatorList[ktemp3] + str(expressionNums[3])
     #Buang angka terakhir dari himpunan kandidat
     nums.remove(nums[0])
-
-    '''
-
-    scores = [0, 0, 0, 0]
-    currentScore = 0
-    print(''.join(['Score: ', str(currentScore)]))
-    currentNumber = nums[0] #Ambil angka terbesar
-
-    expressionNums.append(nums[0])
-    nums.remove(nums[0])
-    print(nums)
-
-
-
-    scores = [
-        currentScore + 4 - (abs(24 - (currentNumber + nums[2]))),
-        currentScore + 3 - (abs(24 - (currentNumber - nums[0]))),
-        currentScore + 3 - (abs(24 - (currentNumber * nums[2]))),
-        currentScore + 2 - (abs(24 - (currentNumber - nums[0]))),
-    ]
-
-    print(scores)
-
-    id = 0
-    max = scores[id]
-
-    for (i, score) in enumerate(scores):
-        if (max < score):
-            id = i
-            max = scores[id]
-
-    currentScore = scores[id]
-    print(''.join(['Score', str(currentScore)]))
-
-    chosen = 0
-
-    if (id == 0 or id == 2):
-        chosen = nums[2]
-    else:
-        chosen = nums[0]
-
-    nums.remove(chosen)
-    print(nums)
-    expressionNums.append(chosen)
-
-    if (id == 0 or id == 1):
-        expression = ''.join([expression, '(', str(expressionNums[0]), operatorList[id], str(expressionNums[1]), ')'])
-    else:
-        expression = ''.join([expression, str(expressionNums[0]), operatorList[id], str(expressionNums[1])])
-
-    currentNumber = eval(expression)
-
     print(expression)
-    print(currentNumber)
 
-    scores = [
-        currentScore + 4 - (abs(24 - (currentNumber + nums[1]))),
-        currentScore + 3 - (abs(24 - (currentNumber - nums[0]))),
-        currentScore + 3 - (abs(24 - (currentNumber * nums[1]))),
-        currentScore + 2 - (abs(24 - (currentNumber - nums[0]))),
-    ]
+    #Greedy Strategy 2:
+    print('TESSSSSS')
+    nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; ktemp2v2 = 0; selisih = 100000
+    for k3 in range(0,4):
+        for k2 in range (0,4):
+            for k in range (0,4) :
+                temp1 = eval(''.join([str(expressionNums[2]),operatorList[k],str(expressionNums[3])]))
+                if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
+                    if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
+                        selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
+                        nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
 
-    print(scores)
+    for k3 in range (0,4):
+        for k2 in range (0,4):
+            for k in range (0,4) :
+                temp1 = eval(''.join([str(expressionNums[2]),operatorList[k],str(expressionNums[3])]))
+                if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
+                    if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
+                        selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
+                        nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
 
-    id = 0
-    max = scores[id]
-
-    for (i, score) in enumerate(scores):
-        if (max < score):
-            id = i
-            max = scores[id]
-
-    currentScore = scores[id]
-    print(''.join(['Score', str(currentScore)]))
-
-    chosen = 0
-
-    if (id == 0 or id == 2):
-        chosen = nums[1]
+    if (itemp3v2 == 2):
+        expressionv2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[2]) + operatorList[ktemp3v2] + str(expressionNums[3]) + ')'
     else:
-        chosen = nums[0]
+        expressionv2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[3]) + operatorList[ktemp3v2] + str(expressionNums[2]) + ')'
 
-    nums.remove(chosen)
-    print(nums)
-    expressionNums.append(chosen)
-
-    if (id == 0 or id == 1):
-        expression = ''.join(['(', expression, operatorList[id], str(expressionNums[2]), ')'])
+    print(expressionv2)
+    if (abs(24 - eval(expressionv2)) < abs(24 - eval (expression))):
+        print(expressionv2)
+        #return expressionv2
     else:
-        expression = ''.join([expression, operatorList[id], str(expressionNums[2])])
-    currentNumber = eval(expression)
+        print(expression)
+        #return expression
 
-    print(expression)
-    print(currentNumber)
-
-    scores = [
-        currentScore + 4 - (abs(24 - (currentNumber + nums[0]))),
-        currentScore + 3 - (abs(24 - (currentNumber - nums[0]))),
-        currentScore + 3 - (abs(24 - (currentNumber * nums[0]))),
-        currentScore + 2 - (abs(24 - (currentNumber - nums[0]))),
-    ]
-
-    print(scores)
-
-    id = 0
-    max = scores[id]
-
-    for (i, score) in enumerate(scores):
-        if (max < score):
-            id = i
-            max = scores[id]
-
-    currentScore = scores[id]
-    print(''.join(['Score', str(currentScore)]))
-
-    chosen = nums[0]
-
-    nums.remove(chosen)
-    print(nums)
-    expressionNums.append(chosen)
-
-    expression = ''.join([expression, operatorList[id], str(expressionNums[3])])
-    currentNumber = eval(expression)
-
-    print(expression)
-    print(currentNumber)
-
-    s = 0
-
-    for c in expression:
-        if (c == '('):
-            s -= 1
-        elif (c == '+'):
-            s += 5
-        elif (c == '-'):
-            s += 4
-        elif (c == '*'):
-            s += 3
-        elif (c == '/'):
-            s += 2
-
-    s -= abs(currentNumber - 24)
-
-    print(''.join(['Final', str(s)]))
-
-    '''
-
-    return expression
-
+main()
+'''
 def main():
     userInput = input()
     userInput = userInput.split(' ')
@@ -240,3 +131,4 @@ def main():
     expression = Solve(userInput)
     print((expression))
     print('Hasil : ' + str(eval(expression)))
+'''
