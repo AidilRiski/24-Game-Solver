@@ -1,9 +1,13 @@
-def main():
-    expressionNums = []
+def Solve(nums):
+    #CARA PAKAI
+    #Parameter nums berisi empat buah angka.
+    #Tinggal panggil.
+    #Fungsi me-return ekspresi dalam string.
+
     #Greedy Strategy 1:
-    print("Masukkan empat angka yang Anda mau!")
-    nums = [int(msk) for msk in input().split()]
     #https://stackoverflow.com/questions/4663306/get-a-list-of-numbers-as-input-from-the-user
+
+    expressionNums = []
     nums.sort(reverse = True)
     expression = ''
     operatorList = ['+', '-', '*', '/']
@@ -51,7 +55,7 @@ def main():
             if (abs(24 - temp2)  < abs (24 - nextTempStep2) and temp2 != 24):
                 nextTempStep2 = temp2; itemp2 = i; ktemp2 = k
             elif (abs(24 - temp2) < abs (24 - nextTempStep2) and (temp2 == 24) and (nums[1-i] == 1)):
-                nextTempStep2 = temp2; itemp2 = i;
+                nextTempStep2 = temp2; itemp2 = i
                 ktemp2 = k
 
     #Masukkan angka tersebut dalam himpunan solusi
@@ -77,10 +81,6 @@ def main():
     expression = expression + operatorList[ktemp3] + str(expressionNums[3])
     #Buang angka terakhir dari himpunan kandidat
     nums.remove(nums[0])
-
-    print((expression))
-    print('Hasil : ' + str(eval(expression)))
-
 
     '''
 
@@ -227,4 +227,16 @@ def main():
     print(''.join(['Final', str(s)]))
 
     '''
-main()
+
+    return expression
+
+def main():
+    userInput = input()
+    userInput = userInput.split(' ')
+
+    for (idx, val) in enumerate(userInput):
+        userInput[idx] = int(val)
+
+    expression = Solve(userInput)
+    print((expression))
+    print('Hasil : ' + str(eval(expression)))
