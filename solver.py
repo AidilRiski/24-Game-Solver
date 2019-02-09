@@ -51,7 +51,8 @@ def main():
             if (abs(24 - temp2)  < abs (24 - nextTempStep2) and temp2 != 24):
                 nextTempStep2 = temp2; itemp2 = i; ktemp2 = k
             elif (abs(24 - temp2) < abs (24 - nextTempStep2) and (temp2 == 24) and (nums[1-i] == 1)):
-                nextTempStep2 = temp2; itemp2 = i; ktemp2 = k
+                nextTempStep2 = temp2; itemp2 = i;
+                ktemp2 = k
 
     #Masukkan angka tersebut dalam himpunan solusi
     expressionNums.append(nums[itemp2])
