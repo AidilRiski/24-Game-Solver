@@ -4,25 +4,32 @@ import solver
 from PIL import ImageTk, Image
 
 ImageDictionary = {
-    '1' : 'AS.jpg',
-    '2' : '2S.jpg',
-    '3' : '3S.jpg',
-    '4' : '4S.jpg',
-    '5' : '5S.jpg',
-    '6' : '6S.jpg',
-    '7' : '7S.jpg',
-    '8' : '8S.jpg',
-    '9' : '9S.jpg',
-    '10' : '10S.jpg',
-    '11' : 'JS.jpg',
-    '12' : 'QS.jpg',
-    '13' : 'KS.jpg'
+    '1' : 'A',
+    '2' : '2',
+    '3' : '3',
+    '4' : '4',
+    '5' : '5',
+    '6' : '6',
+    '7' : '7',
+    '8' : '8',
+    '9' : '9',
+    '10' : '10',
+    '11' : 'J',
+    '12' : 'Q',
+    '13' : 'K'
 }
 
 def findPictureName(stringText):
     if (stringText in ImageDictionary):
         return ''.join(['./cards/',
-            ImageDictionary[stringText]
+            ImageDictionary[stringText],
+            {
+                1 : 'C',
+                2 : 'D',
+                3 : 'H',
+                4 : 'S'
+            }[random.randint(1, 4)],
+            '.jpg'
         ])
     else:
         return None
