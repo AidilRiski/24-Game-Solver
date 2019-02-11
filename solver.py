@@ -28,13 +28,11 @@ def Solve(nums):
                         else:
                             del indexestemp[i]; del indexestemp[j]
                         #Fungsi Seleksi, yaitu yang paling dekat dengan 24
-                        print(nums[indexestemp[0]]); print(nums[indexestemp[1]])
                         if (temp1 == 24 and (abs(nums[indexestemp[0]]-nums[indexestemp[1]]) <= 1)):
                             nextTempStep1 = temp1; itemp1 = i; jtemp1 = j; ktemp1 = k
                         elif ((operatorList[k] == '+' or operatorList[k] == '-') and abs (temp1-24) <8 and temp1 != 24):
                             nextTempStep1 = temp1; itemp1 = i ; jtemp1 = j; ktemp1 = k
                         elif ((operatorList[k] == '*' or operatorList[k] == '/') and temp1 != 24):
-                            print(temp1)
                             nextTempStep1 = temp1; itemp1 = i ; jtemp1 = j; ktemp1 = k
 
     #Masukkan dua angka tersebut dalam himpunan solusi
@@ -83,40 +81,43 @@ def Solve(nums):
     expression = expression + operatorList[ktemp3] + str(expressionNums[3])
     #Buang angka terakhir dari himpunan kandidat
     nums.remove(nums[0])
-    print(expression)
 
     #Greedy Strategy 2:
-    print('TESSSSSS')
     nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; ktemp2v2 = 0; selisih = 100000
     for k3 in range(0,4):
         for k2 in range (0,4):
             for k in range (0,4) :
                 temp1 = eval(''.join([str(expressionNums[2]),operatorList[k],str(expressionNums[3])]))
-                if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
-                    if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
-                        selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
-                        nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
+                try:
+                    if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
+                        if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
+                            selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
+                            nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
+                except ZeroDivisionError:
+                    pass
 
     for k3 in range (0,4):
         for k2 in range (0,4):
             for k in range (0,4) :
                 temp1 = eval(''.join([str(expressionNums[2]),operatorList[k],str(expressionNums[3])]))
-                if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
-                    if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
-                        selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
-                        nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
+                try:
+                    if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
+                        if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
+                            selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
+                            nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
+                except ZeroDivisionError:
+                    pass
 
     if (itemp3v2 == 2):
         expressionv2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[2]) + operatorList[ktemp3v2] + str(expressionNums[3]) + ')'
     else:
         expressiov2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[3]) + operatorList[ktemp3v2] + str(expressionNums[2]) + ')'
 
-    print(expressionv2)
     if (abs(24 - eval(expressionv2)) < abs(24 - eval (expression))):
-        print(expressionv2)
+        expressionv2 = expressionv2 + " = " + str(eval(expressionv2))
         return expressionv2
     else:
-        print(expression)
+        expression = expression + " = " + str(eval(expression))
         return expression
 
 #main()
