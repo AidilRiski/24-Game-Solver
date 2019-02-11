@@ -1,9 +1,15 @@
-#import solver
 import sys
+import solver
 
-with open(sys.argv[1], 'r') as input_file:
-    inputContent = input_file.read()
+try:
+    with open(sys.argv[1], 'r') as input_file:
+        inputContent = input_file.read()
 
-result = inputContent #Solver(inputContent)
-with open(sys.argv[2], 'w') as output_file:
-    output_file.write(result)
+    print(inputContent.split(' '))
+    result = solver.Solve(inputContent.split(' '))
+    with open(sys.argv[2], 'w') as output_file:
+        output_file.write(result)
+except IndexError:
+    raise "Error! Argumen Input belum dimasukan"
+except TypeError:
+    pass

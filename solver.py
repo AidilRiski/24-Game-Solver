@@ -1,5 +1,5 @@
-#def Solve(nums):
-def main():
+def Solve(nums):
+#def main():
     #CARA PAKAI
     #Parameter nums berisi empat buah angka.
     #Tinggal panggil.
@@ -7,7 +7,7 @@ def main():
 
     #Greedy Strategy 1:
     #https://stackoverflow.com/questions/4663306/get-a-list-of-numbers-as-input-from-the-user
-    nums = [int(i) for i in input().split()]
+    #nums = [int(i) for i in input().split()]
     expressionNums = []
     nums.sort(reverse = True)
     expression = ''
@@ -28,7 +28,7 @@ def main():
                         else:
                             del indexestemp[i]; del indexestemp[j]
                         #Fungsi Seleksi, yaitu yang paling dekat dengan 24
-                        print(nums[indexestemp[0]]); print(nums[indexestemp[1]]);
+                        print(nums[indexestemp[0]]); print(nums[indexestemp[1]])
                         if (temp1 == 24 and (abs(nums[indexestemp[0]]-nums[indexestemp[1]]) <= 1)):
                             nextTempStep1 = temp1; itemp1 = i; jtemp1 = j; ktemp1 = k
                         elif ((operatorList[k] == '+' or operatorList[k] == '-') and abs (temp1-24) <8 and temp1 != 24):
@@ -109,17 +109,17 @@ def main():
     if (itemp3v2 == 2):
         expressionv2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[2]) + operatorList[ktemp3v2] + str(expressionNums[3]) + ')'
     else:
-        expressionv2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[3]) + operatorList[ktemp3v2] + str(expressionNums[2]) + ')'
+        expressiov2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[3]) + operatorList[ktemp3v2] + str(expressionNums[2]) + ')'
 
     print(expressionv2)
     if (abs(24 - eval(expressionv2)) < abs(24 - eval (expression))):
         print(expressionv2)
-        #return expressionv2
+        return expressionv2
     else:
         print(expression)
-        #return expression
+        return expression
 
-main()
+#main()
 '''
 def main():
     userInput = input()
@@ -131,4 +131,7 @@ def main():
     expression = Solve(userInput)
     print((expression))
     print('Hasil : ' + str(eval(expression)))
+
+if __name__ == "__main__":
+    main()
 '''
