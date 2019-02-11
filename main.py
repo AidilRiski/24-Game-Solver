@@ -1,50 +1,116 @@
 import random
 import tkinter
 import solver
+from PIL import ImageTk, Image
+
+ImageDictionary = {
+    '1' : 'AS.jpg',
+    '2' : '2S.jpg',
+    '3' : '3S.jpg',
+    '4' : '4S.jpg',
+    '5' : '5S.jpg',
+    '6' : '6S.jpg',
+    '7' : '7S.jpg',
+    '8' : '8S.jpg',
+    '9' : '9S.jpg',
+    '10' : '10S.jpg',
+    '11' : 'JS.jpg',
+    '12' : 'QS.jpg',
+    '13' : 'KS.jpg'
+}
+
+def findPictureName(stringText):
+    if (stringText in ImageDictionary):
+        return ''.join(['./cards/',
+            ImageDictionary[stringText]
+        ])
+    else:
+        return None
 
 class MainApplication(tkinter.Frame):
     def __init__(self, master=None):
         tkinter.Frame.__init__(self, master)
         self.grid()
+        self.testVar=1
         self.createWidgets()
 
     def createWidgets(self):
-        self.inputNum1 = tkinter.Entry(self)
-        self.inputNum1.grid(row=0, column=0)
 
-        self.inputNum2 = tkinter.Entry(self)
-        self.inputNum2.grid(row=0, column=1)
+        self.inputNum1Tracer = tkinter.StringVar()
+        self.inputNum1 = tkinter.Entry(self, textvariable=self.inputNum1Tracer)
+        self.inputNum1.grid(row=1, column=0, padx=10, pady=10)
+        self.updateEntry('1', self.inputNum1)
+        self.img1 = ImageTk.PhotoImage(Image.open(findPictureName(self.inputNum1.get())))
+        self.entryImage1 = tkinter.Label(self, image=self.img1)
+        self.entryImage1.grid(row=0, column=0, padx=10, pady=10)
+        self.inputNum1Tracer.trace('w', lambda callback, entryStr, entryImg: self.entryChangeCallback(self.inputNum1.get(), self.entryImage1))
 
-        self.inputNum3 = tkinter.Entry(self)
-        self.inputNum3.grid(row=0, column=2)
+        self.inputNum2Tracer = tkinter.StringVar()
+        self.inputNum2 = tkinter.Entry(self, textvariable=self.inputNum2Tracer)
+        self.inputNum2.grid(row=1, column=1, padx=10, pady=10)
+        self.updateEntry('2', self.inputNum2)
+        self.img2 = ImageTk.PhotoImage(Image.open(findPictureName(self.inputNum2.get())))
+        self.entryImage2 = tkinter.Label(self, image=self.img2)
+        self.entryImage2.grid(row=0, column=1, padx=10, pady=10)
+        self.inputNum2Tracer.trace('w', lambda callback, entryStr, entryImg: self.entryChangeCallback(self.inputNum2.get(), self.entryImage2))
 
-        self.inputNum4 = tkinter.Entry(self)
-        self.inputNum4.grid(row=0, column=3)
+        self.inputNum3Tracer = tkinter.StringVar()
+        self.inputNum3 = tkinter.Entry(self, textvariable=self.inputNum3Tracer)
+        self.inputNum3.grid(row=1, column=2, padx=10, pady=10)
+        self.updateEntry('3', self.inputNum3)
+        self.img3 = ImageTk.PhotoImage(Image.open(findPictureName(self.inputNum3.get())))
+        self.entryImage3 = tkinter.Label(self, image=self.img3)
+        self.entryImage3.grid(row=0, column=2, padx=10, pady=10)
+        self.inputNum3Tracer.trace('w', lambda callback, entryStr, entryImg: self.entryChangeCallback(self.inputNum3.get(), self.entryImage3))
+
+        self.inputNum4Tracer = tkinter.StringVar()
+        self.inputNum4 = tkinter.Entry(self, textvariable=self.inputNum4Tracer)
+        self.inputNum4.grid(row=1, column=3, padx=10, pady=10)
+        self.updateEntry('4', self.inputNum4)
+        self.img4 = ImageTk.PhotoImage(Image.open(findPictureName(self.inputNum4.get())))
+        self.entryImage4 = tkinter.Label(self, image=self.img4)
+        self.entryImage4.grid(row=0, column=3, padx=10, pady=10)
+        self.inputNum4Tracer.trace('w', lambda callback, entryStr, entryImg: self.entryChangeCallback(self.inputNum4.get(), self.entryImage4))
 
         self.randomButton = tkinter.Button(self, text='Random', command=lambda: self.randomNumberAction())
-        self.randomButton.grid(row=1, column=0, columnspan=2)
+        self.randomButton.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
         self.solveButton = tkinter.Button(self, text='Solve!', command=lambda: self.solveButtonAction())
-        self.solveButton.grid(row=1, column=2, columnspan=2)
+        self.solveButton.grid(row=2, column=2, columnspan=2, padx=10, pady=10)
 
-        self.result = tkinter.Label(text="")
-        self.result.grid(row=2, columnspan=4)
+        self.result = tkinter.Label(self, text="")
+        self.result.grid(row=3, columnspan=4)
 
     def solveButtonAction(self):
         self.result['text'] = solver.Solve([int(self.inputNum1.get()), int(self.inputNum2.get()), int(self.inputNum3.get()), int(self.inputNum4.get())])
 
+    def entryChangeCallback(self, newEntry, labelObject):
+        print(newEntry)
+        newEntryImagePath = findPictureName(newEntry)
+        self.testVar += 1
+        
+        if (not newEntryImagePath == None):
+            print(newEntryImagePath)
+            newImageObj = ImageTk.PhotoImage(Image.open(newEntryImagePath))
+            self.updateImage(newImageObj, labelObject)
+
+    def updateImage(self, newImageObject, labelObject):
+        labelObject.configure(image=newImageObject)
+        labelObject.photo = newImageObject
+
+    def updateEntry(self, newEntry, entryObject, imageLabel = None):
+        entryObject.delete(0, tkinter.END)
+        entryObject.insert(0, newEntry)
+        
+        if (not imageLabel == None):
+            imageObj = ImageTk.PhotoImage(Image.open(findPictureName(newEntry)))
+            self.updateImage(imageObj, imageLabel)
+
     def randomNumberAction(self):
-        self.inputNum1.delete(0, tkinter.END)
-        self.inputNum1.insert(0, str(random.randint(1, 13)))
-
-        self.inputNum2.delete(0, tkinter.END)
-        self.inputNum2.insert(0, str(random.randint(1, 13)))
-
-        self.inputNum3.delete(0, tkinter.END)
-        self.inputNum3.insert(0, str(random.randint(1, 13)))
-
-        self.inputNum4.delete(0, tkinter.END)
-        self.inputNum4.insert(0, str(random.randint(1, 13)))
+        self.updateEntry(str(random.randint(1, 13)), self.inputNum1, self.entryImage1)
+        self.updateEntry(str(random.randint(1, 13)), self.inputNum2, self.entryImage2)
+        self.updateEntry(str(random.randint(1, 13)), self.inputNum3, self.entryImage3)
+        self.updateEntry(str(random.randint(1, 13)), self.inputNum4, self.entryImage4)
 
 mainApp = MainApplication()
 mainApp.master.title('24 Game Solver')
