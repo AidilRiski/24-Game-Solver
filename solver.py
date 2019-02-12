@@ -1,5 +1,4 @@
 def Solve(nums):
-#def main():
     #CARA PAKAI
     #Parameter nums berisi empat buah angka.
     #Tinggal panggil.

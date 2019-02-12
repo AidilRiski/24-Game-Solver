@@ -1,8 +1,10 @@
+#Melakukan import untuk library yang diperlukan.
 import random
 import tkinter
 import solver
 from PIL import ImageTk, Image
 
+#Dictionary  digunakan untuk pemilihan nama file gambar kartu.
 ImageDictionary = {
     '1' : 'A',
     '2' : '2',
@@ -20,6 +22,10 @@ ImageDictionary = {
 }
 
 def findPictureName(stringText):
+    #Fungsi ini menerima sebuah string dan mengembalikan nama
+    #file gambar kartu yang sesuai, jika string tidak berada
+    #di dalam dictionary gambar sebelumnya, fungsi mengembalikan
+    #nilai None (NULL).
     if (stringText in ImageDictionary):
         return ''.join(['./cards/',
             ImageDictionary[stringText],
@@ -35,13 +41,18 @@ def findPictureName(stringText):
         return None
 
 class MainApplication(tkinter.Frame):
+    #Kelas utama untuk GUI
+
     def __init__(self, master=None):
+        #Inisialisasi GUI
         tkinter.Frame.__init__(self, master)
         self.grid()
         self.testVar=1
         self.createWidgets()
 
     def createWidgets(self):
+        #Pada fungsi ini dilakukan pembuatan elemen GUI seperti gambar, text box,
+        #label, dan tombol.
 
         self.inputNum1Tracer = tkinter.StringVar()
         self.inputNum1 = tkinter.Entry(self, textvariable=self.inputNum1Tracer)
@@ -89,9 +100,14 @@ class MainApplication(tkinter.Frame):
         self.result.grid(row=3, columnspan=4)
 
     def solveButtonAction(self):
+        #Fungsi ini akan dipanggil ketika tombol 'Solve' ditekan.
+        #Pada fungsi ini akan mengubah label agar menampilkan hasil dari keempat angka yang diterima.
         self.result['text'] = solver.Solve([int(self.inputNum1.get()), int(self.inputNum2.get()), int(self.inputNum3.get()), int(self.inputNum4.get())])
 
     def entryChangeCallback(self, newEntry, labelObject):
+        #Fungsi ini dipanggil ketika terjadi perubahan pada entry text box.
+        #Fungsi ini mengubah gambar kartu menjadi yang sesuai, jika isi tidak sesuai dengan kartu
+        #manapun, maka gambar tidak diubah.
         print(newEntry)
         newEntryImagePath = findPictureName(newEntry)
         self.testVar += 1
@@ -102,10 +118,13 @@ class MainApplication(tkinter.Frame):
             self.updateImage(newImageObj, labelObject)
 
     def updateImage(self, newImageObject, labelObject):
+        #Fungsi ini melakukan perubahan gambar pada labelObject menjadi newImageObject.
         labelObject.configure(image=newImageObject)
         labelObject.photo = newImageObject
 
     def updateEntry(self, newEntry, entryObject, imageLabel = None):
+        #Fungsi ini melakukan perubahan isi pada entry text box entryObject agar menjadi newEntry.
+        #Jika disertakan imageLabel, maka gambar pada imageLabel akan diubah melalui fungsi updateImage().
         entryObject.delete(0, tkinter.END)
         entryObject.insert(0, newEntry)
         
@@ -114,10 +133,12 @@ class MainApplication(tkinter.Frame):
             self.updateImage(imageObj, imageLabel)
 
     def randomNumberAction(self):
+        #Fungsi ini dipanggil ketika tombol 'Random' ditekan.
         self.updateEntry(str(random.randint(1, 13)), self.inputNum1, self.entryImage1)
         self.updateEntry(str(random.randint(1, 13)), self.inputNum2, self.entryImage2)
         self.updateEntry(str(random.randint(1, 13)), self.inputNum3, self.entryImage3)
         self.updateEntry(str(random.randint(1, 13)), self.inputNum4, self.entryImage4)
+        self.solveButtonAction()
 
 mainApp = MainApplication()
 mainApp.master.title('24 Game Solver')
