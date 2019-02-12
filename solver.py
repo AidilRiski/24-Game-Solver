@@ -4,16 +4,13 @@ def Solve(nums):
     #Parameter nums berisi empat buah angka.
     #Tinggal panggil.
     #Fungsi me-return ekspresi dalam string.
-
     #Greedy Strategy 1:
-    #https://stackoverflow.com/questions/4663306/get-a-list-of-numbers-as-input-from-the-user
-    #nums = [int(i) for i in input().split()]
     expressionNums = []
     nums.sort(reverse = True)
     expression = ''
     operatorList = ['+', '-', '*', '/']
     #Cari dua angka dari HIMPUNAN KANDIDAT yang jika dioperasikan dengan operatorList mendekati 24
-    nextTempStep1 = 0 #eval(''.join([str(nums[0]),operatorList[0],str(nums[1])]))
+    nextTempStep1 = 0
     itemp1 = 0; jtemp1 = 1; ktemp1 = 0
     for i in range (0,4):
         for j in range (0,4) :
@@ -83,56 +80,47 @@ def Solve(nums):
     nums.remove(nums[0])
 
     #Greedy Strategy 2:
-    nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; ktemp2v2 = 0; selisih = 100000
-    for k3 in range(0,4):
-        for k2 in range (0,4):
-            for k in range (0,4) :
-                temp1 = eval(''.join([str(expressionNums[2]),operatorList[k],str(expressionNums[3])]))
-                try:
-                    if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
-                        if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
-                            selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
-                            nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
-                except ZeroDivisionError:
-                    pass
-
-    for k3 in range (0,4):
-        for k2 in range (0,4):
-            for k in range (0,4) :
-                temp1 = eval(''.join([str(expressionNums[2]),operatorList[k],str(expressionNums[3])]))
-                try:
-                    if (abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24) < abs(eval(str(nextTempStep3v2) + operatorList[k3] + str(temp1)) - 24)):
-                        if (selisih > abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)):
-                            selisih = abs(eval(str(nextTempStep2) + operatorList[k2] + str(temp1)) - 24)
-                            nextTempStep3v2 = temp1; itemp3v2 = 2; ktemp3v2 = k; ktemp2v2 = k2
-                except ZeroDivisionError:
-                    pass
+    nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
+    nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
+    print("expressionv2 :" + str(expressionv2))
+    for i in range (2,4):
+        for k in range (0,4) :
+            if (i == 2):
+                temp1 = eval(''.join([str(expressionNums[i]),operatorList[k],str(expressionNums[3])]))
+            else:
+                temp1 = eval(''.join([str(expressionNums[i]),operatorList[k],str(expressionNums[2])]))
+            try:
+                if (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) < abs(eval(str(expressionv2) + '+' + str(selisih)) - 24)):
+                    tempeval1 = abs(eval(str(expressionv2) + '+' + str(temp1)) - 24)
+                    tempeval2 = abs(eval(str(expressionv2) + '+' + str(selisih)) - 24)
+                    if (operatorList[k] == "/"):
+                        if ((abs(tempeval1 - tempeval2) > 2) or (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) == 0)):
+                            selisih = temp1
+                            if (i == 2):
+                                itemp3v2 = 2
+                            else:
+                                itemp3v2 = 3
+                            ktemp3v2 = k
+                    else:
+                        selisih = temp1
+                        if (i == 2):
+                            itemp3v2 = 2
+                        else:
+                            itemp3v2 = 3
+                        ktemp3v2 = k
+            except ZeroDivisionError:
+                pass
 
     if (itemp3v2 == 2):
-        expressionv2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[2]) + operatorList[ktemp3v2] + str(expressionNums[3]) + ')'
+        expressionv2 = expressionv2 + '+' + str(expressionNums[2]) + operatorList[ktemp3v2] + str(expressionNums[3])
     else:
-        expressiov2 = expressionv2 + operatorList[ktemp2v2] + '(' + str(expressionNums[3]) + operatorList[ktemp3v2] + str(expressionNums[2]) + ')'
+        expressionv2 = expressionv2 + '+' + str(expressionNums[3]) + operatorList[ktemp3v2] + str(expressionNums[2])
 
     if (abs(24 - eval(expressionv2)) < abs(24 - eval (expression))):
         expressionv2 = expressionv2 + " = " + str(eval(expressionv2))
         return expressionv2
+        print(expressionv2)
     else:
         expression = expression + " = " + str(eval(expression))
         return expression
-
-#main()
-'''
-def main():
-    userInput = input()
-    userInput = userInput.split(' ')
-
-    for (idx, val) in enumerate(userInput):
-        userInput[idx] = int(val)
-
-    expression = Solve(userInput)
-    print((expression))
-    print('Hasil : ' + str(eval(expression)))
-
-if __name__ == "__main__":
-    main()
-'''
+        print(expressionv2)
