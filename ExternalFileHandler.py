@@ -12,8 +12,8 @@ try:
 
     for (idx, val) in enumerate(inputContent):
         inputContent[idx] = int(val)
-        
-    result = solver.Solve(inputContent)
+
+    result = solver.SolveComp(inputContent)
     with open(sys.argv[2], 'w') as output_file:
         output_file.write(result)
 except IndexError:

@@ -82,7 +82,6 @@ def Solve(nums):
     #Greedy Strategy 2:
     nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
     nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
-    print("expressionv2 :" + str(expressionv2))
     for i in range (2,4):
         for k in range (0,4) :
             if (i == 2):
@@ -118,9 +117,86 @@ def Solve(nums):
 
     if (abs(24 - eval(expressionv2)) < abs(24 - eval (expression))):
         expressionv2 = expressionv2 + " = " + str(eval(expressionv2))
-        return expressionv2
         print(expressionv2)
+        return expressionv2
     else:
         expression = expression + " = " + str(eval(expression))
         return expression
-        print(expressionv2)
+
+
+def SolveComp(nums):
+    expressionNums = []
+    nums.sort(reverse = True)
+    expression = ''
+    operatorList = ['+', '-', '*', '/']
+    #Cari dua angka dari HIMPUNAN KANDIDAT yang jika dioperasikan dengan operatorList mendekati 24
+    nextTempStep1 = 0
+    itemp1 = 0; jtemp1 = 1; ktemp1 = 0
+    for i in range (0,4):
+        for j in range (0,4) :
+            if (i != j):
+                for k in range (0,4) :
+                    temp1 = eval(''.join([str(nums[i]),operatorList[k],str(nums[j])]))
+                    if ((abs(temp1 - 24) < abs(nextTempStep1 - 24))):
+                        indexestemp = [0,1,2,3]
+                        #Cek dua angka yang lain
+                        if (j > i):
+                            del indexestemp[j]; del indexestemp[i]
+                        else:
+                            del indexestemp[i]; del indexestemp[j]
+                        #Fungsi Seleksi, yaitu yang paling dekat dengan 24
+                        if (temp1 == 24 and (abs(nums[indexestemp[0]]-nums[indexestemp[1]]) <= 1)):
+                            nextTempStep1 = temp1; itemp1 = i; jtemp1 = j; ktemp1 = k
+                        elif ((operatorList[k] == '+' or operatorList[k] == '-') and abs (temp1-24) <8 and temp1 != 24):
+                            nextTempStep1 = temp1; itemp1 = i ; jtemp1 = j; ktemp1 = k
+                        elif ((operatorList[k] == '*' or operatorList[k] == '/') and temp1 != 24):
+                            nextTempStep1 = temp1; itemp1 = i ; jtemp1 = j; ktemp1 = k
+
+    #Masukkan dua angka tersebut dalam himpunan solusi
+    expressionNums.append(nums[itemp1]); expressionNums.append(nums[jtemp1])
+    expression = ''.join([str(expressionNums[0]),operatorList[ktemp1],str(expressionNums[1])])
+    #print(expression)
+    expressionv2 = expression #SIMPAN untuk STRATEGI GREEDY 2
+    #Buang dua angka tersebut dari himpunan kandidat
+    indexes = [itemp1, jtemp1]
+    for i in sorted (indexes, reverse = True):
+        del nums[i]
+    #https://stackoverflow.com/questions/11303225/how-to-remove-multiple-indexes-from-a-list-at-the-same-time
+
+    #Greedy Strategy 2:
+    nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
+    nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
+    for i in range (0,2):
+        for k in range (0,4) :
+            if (i == 0):
+                temp1 = eval(''.join([str(nums[i]),operatorList[k],str(nums[1])]))
+            else:
+                temp1 = eval(''.join([str(nums[i]),operatorList[k],str(nums[0])]))
+            try:
+                if (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) < abs(eval(str(expressionv2) + '+' + str(selisih)) - 24)):
+                    tempeval1 = abs(eval(str(expressionv2) + '+' + str(temp1)) - 24)
+                    tempeval2 = abs(eval(str(expressionv2) + '+' + str(selisih)) - 24)
+                    if (operatorList[k] == "/"):
+                        if ((abs(tempeval1 - tempeval2) > 2) or (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) == 0)):
+                            selisih = temp1
+                            if (i == 0):
+                                itemp3v2 = 0
+                            else:
+                                itemp3v2 = 1
+                            ktemp3v2 = k
+                    else:
+                        selisih = temp1
+                        if (i == 0):
+                            itemp3v2 = 0
+                        else:
+                            itemp3v2 = 1
+                        ktemp3v2 = k
+            except ZeroDivisionError:
+                pass
+
+    if (itemp3v2 == 0):
+        expressionv2 = expressionv2 + '+' + str(nums[0]) + operatorList[ktemp3v2] + str(nums[1])
+    else:
+        expressionv2 = expressionv2 + '+' + str(nums[1]) + operatorList[ktemp3v2] + str(nums[0])
+
+    return expressionv2
