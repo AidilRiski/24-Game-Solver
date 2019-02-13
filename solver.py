@@ -81,18 +81,20 @@ def Solve(nums):
     #Greedy Strategy 2:
     nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
     nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
-    for i in range (2,4):
-        for k in range (0,4) :
+    for k in range (0,4):
+        for i in range (2,4) :
             if (i == 2):
                 temp1 = eval(''.join([str(expressionNums[i]),operatorList[k],str(expressionNums[3])]))
+                print(str(expressionNums[i]) + operatorList[k] + str(expressionNums[3]))
             else:
                 temp1 = eval(''.join([str(expressionNums[i]),operatorList[k],str(expressionNums[2])]))
+                print(str(expressionNums[i]) + operatorList[k] + str(expressionNums[2]))
             try:
                 if (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) < abs(eval(str(expressionv2) + '+' + str(selisih)) - 24)):
                     tempeval1 = abs(eval(str(expressionv2) + '+' + str(temp1)) - 24)
                     tempeval2 = abs(eval(str(expressionv2) + '+' + str(selisih)) - 24)
                     if (operatorList[k] == "/"):
-                        if ((abs(tempeval1 - tempeval2) > 2) or (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) == 0)):
+                        if ((tempeval2 > 2) or (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) == 0)):
                             selisih = temp1
                             if (i == 2):
                                 itemp3v2 = 2
@@ -165,8 +167,8 @@ def SolveComp(nums):
     #Greedy Strategy 2:
     nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
     nextTempStep3v2 = 100000; itemp3v2 = 0; ktemp3v2 = 0; selisih = 100000
-    for i in range (0,2):
-        for k in range (0,4) :
+    for k in range (0,4):
+        for i in range (0,2) :
             if (i == 0):
                 temp1 = eval(''.join([str(nums[i]),operatorList[k],str(nums[1])]))
             else:
@@ -176,7 +178,7 @@ def SolveComp(nums):
                     tempeval1 = abs(eval(str(expressionv2) + '+' + str(temp1)) - 24)
                     tempeval2 = abs(eval(str(expressionv2) + '+' + str(selisih)) - 24)
                     if (operatorList[k] == "/"):
-                        if ((abs(tempeval1 - tempeval2) > 2) or (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) == 0)):
+                        if ((tempeval2 > 2) or (abs(eval(str(expressionv2) + '+' + str(temp1)) - 24) == 0)):
                             selisih = temp1
                             if (i == 0):
                                 itemp3v2 = 0
